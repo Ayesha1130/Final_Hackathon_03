@@ -1,113 +1,132 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { CiHeart } from "react-icons/ci";
-
-import { MdOutlineShoppingCart, MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
+import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
-
-import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
 import AuthStatus from "@/components/AuthStatus";
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Toggle the mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
     <>
-      <header className="flex justify-between p-4 items-center  ">
-        <h1 className="mt-0 text-[#22202E] ml-10 text-xl font-serif">Avion</h1>
+      <header className="flex justify-between items-center p-4">
+        {/* Hamburger Button (before the logo) */}
+        <button onClick={toggleMenu} className="md:hidden text-2xl" aria-label="Toggle Menu">
+          {!isOpen ? <IoMdMenu /> : <RxCross2 />}
+        </button>
 
-        <nav className="hidden md:hidden lg:block ">
-          <ul className="flex flex-row  justify-center gap-8 font-serif ">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/product">Products</Link>
-            </li>
-           
-            <li>
-              <Link href="/about">About Us</Link>
-            </li>
-            <li>
-              <Link href="/contact">Contact</Link>
-            </li>
-          </ul>
-       
-       
-        </nav>
+        {/* Logo on the left */}
+        <h1 className="text-2xl font-serif text-[#22202E] ml-10">Avion</h1>
 
-        {isOpen && (
-          <nav className=" md:block lg:hidden">
-            <ul className="flex flex-col font-serif text-start items-center gap-4 mt-10 bg-white text-black absolute left-0 right-20 w-[70%] h-full  rounded-lg shadow-lg">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/product">Products</Link>
-            </li>
-           
-            <li>
-              <Link href="/about">About Us</Link>
-            </li>
-            <li>
-              <Link href="#">Contact</Link>
-            </li>
-            </ul>
-          </nav>
-        )}
-        <div className="flex gap-4 pr-10">
-        
-          <Link href={'/wishlist'}><CiHeart size={20} /></Link>
-          <Link href={'/cart'}><MdOutlineShoppingCart size={20} /></Link>
-
-          <Link href={'/'}><FaUserCircle size={20} /></Link>
-
-
-          <button title="button" onClick={toggleMenu}>
-            {!isOpen ? (
-              <IoMdMenu size={20} className="md:block lg:hidden" />
-            ) : (
-              <RxCross2 size={20} className="md:block lg:hidden" />
-            )}
-          </button>
-           <Link href={'/join-us'} className="font-serif font-bold">Join Us</Link>
-              <AuthStatus/>
-            
-          
+        {/* Icons and Signin/Signup (right side) */}
+        <div className="flex items-center gap-4 ml-auto">
+          <Link href="/wishlist">
+            <CiHeart size={20} />
+          </Link>
+          <Link href="/cart">
+            <MdOutlineShoppingCart size={20} />
+          </Link>
+          <Link href="/">
+            <FaUserCircle size={20} />
+          </Link>
+          <Link href="/join-us" className="font-serif font-bold">
+            Join Us
+          </Link>
+          <AuthStatus />
         </div>
       </header>
 
-      <div className="p-5 mt-0  bg-[#F9F9F9] hidden md:hidden lg:block">
-        <ul className="flex text-center justify-center gap-5 font-serif">
-          
-        <li>
-              <Link href="/popularproducts">Popular Product</Link>
+      {/* Mobile Menu */}
+      {isOpen && (
+        <nav className="md:hidden fixed inset-0 bg-white shadow-lg z-20">
+          <div className="absolute top-4 right-4">
+            {/* Close button positioned within the menu */}
+            <button onClick={toggleMenu} aria-label="Close Menu">
+              <RxCross2 size={30} />
+            </button>
+          </div>
+          <ul className="flex flex-col items-center gap-4 mt-20 text-black font-serif">
+            <li>
+              <Link href="/" onClick={toggleMenu}>Home</Link>
             </li>
+            <li>
+              <Link href="/product" onClick={toggleMenu}>Products</Link>
+            </li>
+            <li>
+              <Link href="/about" onClick={toggleMenu}>About Us</Link>
+            </li>
+            <li>
+              <Link href="/contact" onClick={toggleMenu}>Contact</Link>
+            </li>
+            <li>
+              <Link href="/popularproducts" onClick={toggleMenu}>Popular Product</Link>
+            </li>
+            <li>
+              <Link href="/categoryproduct" onClick={toggleMenu}>Best Selling Product</Link>
+            </li>
+            <li>
+              <Link href="/brand" onClick={toggleMenu}>Brand</Link>
+            </li>
+            <li>
+              <Link href="/product" onClick={toggleMenu}>Chairs</Link>
+            </li>
+            <li>
+              <Link href="/product" onClick={toggleMenu}>Crockery</Link>
+            </li>
+            <li>
+              <Link href="/product" onClick={toggleMenu}>Tableware</Link>
+            </li>
+            <li>
+              <Link href="/product" onClick={toggleMenu}>Cutlery</Link>
+            </li>
+          </ul>
+        </nav>
+      )}
+
+      {/* Desktop-only Navigation Bar (with categories) */}
+      <div className="hidden md:flex justify-center bg-[#F9F9F9] p-5">
+        <ul className="flex gap-5 font-serif text-center">
           <li>
-            <Link href={"/categoryproduct"}>Best Selling Product</Link>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href={"/brand"}>Brand</Link>
+            <Link href="/product">Products</Link>
           </li>
           <li>
-            <Link href={"/product"}>Chairs</Link>
+            <Link href="/about">About Us</Link>
           </li>
           <li>
-            <Link href={"/product"}>Crockery</Link>
+            <Link href="/contact">Contact</Link>
           </li>
           <li>
-            <Link href={"/product"}>Tableware</Link>
+            <Link href="/popularproducts">Popular Product</Link>
           </li>
           <li>
-            <Link href={"/product"}>Cutlery</Link>
+            <Link href="/categoryproduct">Best Selling Product</Link>
+          </li>
+          <li>
+            <Link href="/brand">Brand</Link>
+          </li>
+          <li>
+            <Link href="/product">Chairs</Link>
+          </li>
+          <li>
+            <Link href="/product">Crockery</Link>
+          </li>
+          <li>
+            <Link href="/product">Tableware</Link>
+          </li>
+          <li>
+            <Link href="/product">Cutlery</Link>
           </li>
         </ul>
       </div>
